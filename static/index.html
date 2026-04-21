@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Writer Assistance</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="#chatbot" href="/static/style.css">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <h2 class="mb-4">Writing Assistant</h2>
+        
+        <div id="chat-box" class="rounded mb-3 shadow-sm">
+            </div>
+        <div class="fileupload-group">
+            <input type="file" id="userFile" class="form-control" placeholder="Upload Your Files First To Use this Chatbot">
+            <button class="btn btn-primary" onclick="sendPlotFiles()">Read Plot</button>
+        </div>
+
+        <div id="chat-input-area" class="chatbot-group d-none">
+            <div class="input-group">
+                <input type="text" id="userMsg" class="form-control" placeholder="Ask about your plot...">
+                <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //Send Plot Files. Prompt only appears after successul response
+        async function sendPlotFiles() {
+            const fileInput = document.getElementById('userFile');
+            const chatBox = document.getElementById('chat-box'); // Match this name
+            const chatInputArea = document.getElementById('chat-input-area');
+            const uploadGroup = document.querySelector('.fileupload-group'); // Target the whole group
+
+            if (!fileInput.files[0]) {
+                alert("Select a file first!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            try {
+                const response = await fetch('/uploadfile/', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Now these names match!
+                    chatBox.innerHTML += `<div class="text-success"><strong>System:</strong> File read successfully!</div>`;
+                    chatBox.innerHTML += `<div class="text-primary"><strong>AI:</strong> ${data.reply}</div>`;
+
+                    // Reveal chat, hide the ENTIRE upload group
+                    chatInputArea.classList.remove('d-none');
+                    uploadGroup.classList.add('d-none');
+                }
+            } catch (error) {
+                console.error("Upload failed:", error);
+            }
+        }
+
+        //Prompt
+        async function sendMessage() {
+            const input = document.getElementById('userMsg');
+            const chatBox = document.getElementById('chat-box');
+            
+            
+            chatBox.innerHTML += `<div><strong>You:</strong> ${input.value}</div>`;
+            
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ message: input.value })
+            });
+            
+            const data = await response.json();
+            chatBox.innerHTML += `<div class="text-primary"><strong>AI:</strong> ${data.reply}</div>`;
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
