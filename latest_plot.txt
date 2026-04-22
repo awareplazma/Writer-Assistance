@@ -1,17 +1,17 @@
 MOHAMAD AFIQ BIN MOHD MAZLI
-Junior AI Engineer
+Software Engineer
 Jalan Sentul Pelangi, W.P. Kuala Lumpur | afiqmazli929@gmail.com | (+60) 111435 5742 | linkedin.com/in/mohamad-afiq-mohd-mazli | https://github.com/awareplazma
 
 PROFESSIONAL SUMMARY
 Azure-certified fresh graduate with practical experience developing full-stack web applications and automation pipelines. 
 Language-agnostic developer comfortable picking up new stacks quickly with experience in TypeScript, PHP, and Python.
 Experienced in translating vague software requirements into concrete and maintainable technical requirements.
-Currently self-studying LLM integration and prompt engineering for agentic workflows using Google's Gemini API with Python.
+Actively expanding into LLM integration and prompt engineering for agentic workflows using Google's Gemini API with Python, Langgraph and ChromaDB.
 WORK EXPERIENCE
 Kemalak Marine Sdn Bhd | Petaling Jaya, Selangor
 IT Assistant										           Aug 2025 – Apr 2026
 Led the development of a serverless full-stack CRUD web application on Microsoft Azure that simplifies Human Resource department workflows for job applications that reduce human error and increase efficiency.
-Built VBA-powered Excel dashboard syncing 1000+ live data rows from cloud data storage to local environments for real-time reporting that significantly cuts time from individual filtering.
+Built VBA-powered Excel dashboard syncing 1000+ live data rows from cloud data storage to local environments for real-time reporting that significantly cuts time from individual sheet filtering.
 Supported daily office operations through technical troubleshooting and data administration.
 Bengkel Motor Mazli (Botak) | Maran, Pahang
 General Assistant									          Jan 2025 – June 2025
@@ -23,7 +23,7 @@ Developed a full-stack PHP prototype for internal department that serves as foun
 Acted as primary on-site IT support to resolve hardware, software licensing, and computer issues for office staff.
 Executed inventory audits for documentation and tracking of government hardware and IT assets.
 PROJECTS
-MarineOn
+MarineOn (Private Repository, Available Upon Request)
 Azure Static Web App with third-party cloud database provider to minimize infrastructure costs while maintaining scalability using Javascript + Typescript for type safety and maintainability.
 Implemented Row-Level Security, JWT session check using Supabase built-in features.
 Translated ambiguous requirements into a concrete technical roadmap, features and timeline.
@@ -43,7 +43,7 @@ MARA University of Technology
 Bachelor of Information Technology – CGPA 3.61					     	    Graduated: 2025
 
 Gambang Matriculation
-Science Stream – CGPA 3.33 								     	    Graduated: 2020
+Science Stream – CGPA 3.33 								     	    Graduated: 2021
 
 Sijil Pelajaran Malaysia (SPM)
 Science Stream – 8A, 1B								     	    Graduated: 2019

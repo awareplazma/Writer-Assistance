@@ -9,7 +9,7 @@ from chatbot import ask_chatbot
 
 app = FastAPI(title="Writing Assistant API")
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.mount("/bootstrap", StaticFiles(directory="node_modules/bootstrap/dist"), name="bootstrap")
+#app.mount("/bootstrap", StaticFiles(directory="node_modules/bootstrap/dist"), name="bootstrap")
 
 class ChatRequest(BaseModel):
     message: str
