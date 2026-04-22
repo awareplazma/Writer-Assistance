@@ -12,3 +12,6 @@ local.env
 
 # Virtual environments
 .venv
+
+# Non-virtual
+.env

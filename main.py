@@ -3,10 +3,10 @@ from pydantic import BaseModel
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import os
-import base64
-from chatbot import ask_chatbot 
+import docx
+from io import BytesIO
+from chatbot import ask_chatbot
 
-#FastAPI automatically use Swagger UI to visualize API responses. Mount first then Check @app.get("/")
 app = FastAPI(title="Writing Assistant API")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/bootstrap", StaticFiles(directory="node_modules/bootstrap/dist"), name="bootstrap")
@@ -17,26 +17,34 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     reply: str
 
+def extract_text_from_file(content: bytes, filename: str) -> str:
+    if filename.lower().endswith('.txt'):
+        try:
+            return content.decode('utf-8')
+        except UnicodeDecodeError:
+            return content.decode('latin-1')
+    elif filename.lower().endswith('.docx'):
+        doc = docx.Document(BytesIO(content))
+        full_text = []
+        for para in doc.paragraphs:
+            full_text.append(para.text)
+        return '\n'.join(full_text)
+    else:
+        raise HTTPException(status_code=400, detail="Only .txt and .docx files are supported.")
 
 @app.post("/uploadfile/")
 async def upload_file(file: UploadFile = File(...)):
     try:
-        # remove potential ../
         filename = os.path.basename(file.filename)
-        
         content = await file.read()
-        
-        with open(f"latest_plot.txt", "wb") as f:
-            f.write(content)
+        plain_text = extract_text_from_file(content, filename)
+        with open("latest_plot.txt", "w", encoding="utf-8") as f:
+            f.write(plain_text)
         return {
-            "filename": filename, 
-            "status": "saved", 
+            "filename": filename,
+            "status": "saved",
             "reply": f"I've received '{filename}' and saved it to the plot database."
         }
-            
-        # Base64 encode to go through BaseModel validation
-        # encoded = base64.b64encode(content).decode('utf-8')
-        
     except Exception as e:
         print(f"Error saving file: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -44,10 +52,9 @@ async def upload_file(file: UploadFile = File(...)):
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
     plot_data = ""
-    if os.path.exists("latest_plot.txt"): 
-        with open("latest_plot.txt", "rb") as f:
+    if os.path.exists("latest_plot.txt"):
+        with open("latest_plot.txt", "r", encoding="utf-8") as f:
             plot_data = f.read()
-
     reply = ask_chatbot(request.message, plot_context=plot_data)
     return ChatResponse(reply=reply)
 
